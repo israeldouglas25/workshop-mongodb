@@ -1,6 +1,7 @@
 package apiworkshopmongodb.com.br.workshop.controllers;
 
 import apiworkshopmongodb.com.br.workshop.domain.User;
+import apiworkshopmongodb.com.br.workshop.domain.UserDTO;
 import apiworkshopmongodb.com.br.workshop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,10 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
-        return ResponseEntity.ok().body(userService.findAll());
+    public ResponseEntity<List<UserDTO>> findAll() {
+        List<User> users = userService.findAll();
+        List<UserDTO> userDTO = users.stream().map(UserDTO::new).toList();
+        return ResponseEntity.ok().body(userDTO);
     }
 
     @PostMapping
