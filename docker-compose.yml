@@ -30,6 +30,18 @@ services:
     depends_on:
       mongo:
         condition: service_healthy
+#  Adiciona a aplicação Spring Boot ao docker-compose
+#  app:
+#    build: .
+#    container_name: workshop
+#    restart: always
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      mongo:
+#        condition: service_healthy
+#    environment:
+#      SPRING_DATA_MONGODB_URI: mongodb://admin:1234@mongo:27017/workshop?authSource=admin
 
 volumes:
   mongo_data:
