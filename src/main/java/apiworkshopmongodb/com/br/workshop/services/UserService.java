@@ -17,6 +17,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public User findById(String id) {
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
     public User save(User user) {
         return userRepository.save(new User(null, user.getName(), user.getEmail()));
     }
