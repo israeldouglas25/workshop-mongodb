@@ -24,4 +24,12 @@ public class UserService {
     public User save(User user) {
         return userRepository.save(new User(null, user.getName(), user.getEmail()));
     }
+
+    public void delete(String id) {
+        User byId = findById(id);
+        if (byId.getId().isEmpty() || byId.getId() == null) {
+            throw new IllegalArgumentException("ID cannot be empty or null");
+        }
+        userRepository.deleteById(byId.getId());
+    }
 }

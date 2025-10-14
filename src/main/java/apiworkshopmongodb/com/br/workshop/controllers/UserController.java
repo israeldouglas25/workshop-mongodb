@@ -34,4 +34,11 @@ public class UserController {
     public ResponseEntity<User> insert(@RequestBody User user) {
         return ResponseEntity.ok().body(userService.save(user));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
