@@ -26,10 +26,29 @@ public class UserService {
     }
 
     public void delete(String id) {
-        User byId = findById(id);
-        if (byId.getId().isEmpty() || byId.getId() == null) {
+        User existingUser = findById(id);
+        if (existingUser.getId().isEmpty()) {
             throw new IllegalArgumentException("ID cannot be empty or null");
         }
-        userRepository.deleteById(byId.getId());
+        userRepository.deleteById(existingUser.getId());
     }
+
+    public User update(User user) {
+        User existingUser = findById(user.getId());
+        if (existingUser.getId() != null && existingUser.getId().isEmpty()) {
+            throw new IllegalArgumentException("ID cannot be empty or null");
+        }
+        updateData(existingUser, user);
+        return userRepository.save(existingUser);
+    }
+
+    private void updateData(User existingUser, User user) {
+        if (user.getName() != null && !user.getName().isEmpty()) {
+            existingUser.setName(user.getName());
+        }
+        if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+            existingUser.setEmail(user.getEmail());
+        }
+    }
+
 }
