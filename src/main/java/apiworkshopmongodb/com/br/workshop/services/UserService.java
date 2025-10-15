@@ -1,6 +1,7 @@
 package apiworkshopmongodb.com.br.workshop.services;
 
 import apiworkshopmongodb.com.br.workshop.domain.User;
+import apiworkshopmongodb.com.br.workshop.exceptions.NotFoundException;
 import apiworkshopmongodb.com.br.workshop.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class UserService {
     }
 
     public User findById(String id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     public User save(User user) {
@@ -28,7 +29,7 @@ public class UserService {
     public void delete(String id) {
         User existingUser = findById(id);
         if (existingUser.getId().isEmpty()) {
-            throw new IllegalArgumentException("ID cannot be empty or null");
+            throw new NotFoundException("ID cannot be empty or null");
         }
         userRepository.deleteById(existingUser.getId());
     }
@@ -36,7 +37,7 @@ public class UserService {
     public User update(User user) {
         User existingUser = findById(user.getId());
         if (existingUser.getId() != null && existingUser.getId().isEmpty()) {
-            throw new IllegalArgumentException("ID cannot be empty or null");
+            throw new NotFoundException("ID cannot be empty or null");
         }
         updateData(existingUser, user);
         return userRepository.save(existingUser);
