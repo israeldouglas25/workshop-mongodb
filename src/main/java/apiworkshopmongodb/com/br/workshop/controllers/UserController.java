@@ -1,13 +1,15 @@
 package apiworkshopmongodb.com.br.workshop.controllers;
 
 import apiworkshopmongodb.com.br.workshop.domain.User;
-import apiworkshopmongodb.com.br.workshop.domain.UserDTO;
-import apiworkshopmongodb.com.br.workshop.domain.UserIdDTO;
+import apiworkshopmongodb.com.br.workshop.domain.UserRequestDTO;
+import apiworkshopmongodb.com.br.workshop.domain.UserResponseDTO;
 import apiworkshopmongodb.com.br.workshop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -18,21 +20,21 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> findAll() {
-        List<User> users = userService.findAll();
-        List<UserDTO> userDTO = users.stream().map(UserDTO::new).toList();
-        return ResponseEntity.ok().body(userDTO);
+    public ResponseEntity<List<User>> findAll() {
+        return ResponseEntity.ok().body(userService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserIdDTO> findById(@PathVariable String id) {
+    public ResponseEntity<UserResponseDTO> findById(@PathVariable String id) {
         User user = userService.findById(id);
-        return ResponseEntity.ok().body(new UserIdDTO(user));
+        return ResponseEntity.ok().body(new UserResponseDTO(user));
     }
 
     @PostMapping
-    public ResponseEntity<User> insert(@RequestBody User user) {
-        return ResponseEntity.ok().body(userService.save(user));
+    public ResponseEntity<UserResponseDTO> insert(@RequestBody UserRequestDTO userRequestDTO) {
+        User user = userService.save(userRequestDTO);
+        URI uri = UriComponentsBuilder.fromPath("/users/{id}").buildAndExpand(user.getId()).toUri();
+        return ResponseEntity.created(uri).body(new UserResponseDTO(user));
     }
 
     @DeleteMapping("/{id}")
@@ -42,11 +44,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserIdDTO> update(@PathVariable String id, @RequestBody User user) {
-        user.setId(id);
-        User updatedUser = userService.update(user);
-        UserIdDTO userDTO = new UserIdDTO(updatedUser);
-        return ResponseEntity.ok().body(userDTO);
+    public ResponseEntity<UserResponseDTO> update(@PathVariable String id, @RequestBody UserRequestDTO userRequestDTO) {
+        User updatedUser = userService.update(id, userRequestDTO);
+        return ResponseEntity.ok().body(new UserResponseDTO(updatedUser));
     }
 
 }

@@ -1,6 +1,7 @@
 package apiworkshopmongodb.com.br.workshop.services;
 
 import apiworkshopmongodb.com.br.workshop.domain.User;
+import apiworkshopmongodb.com.br.workshop.domain.UserRequestDTO;
 import apiworkshopmongodb.com.br.workshop.exceptions.NotFoundException;
 import apiworkshopmongodb.com.br.workshop.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,33 +23,28 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
-    public User save(User user) {
-        return userRepository.save(new User(null, user.getName(), user.getEmail()));
+    public User save(UserRequestDTO userRequestDTO) {
+        User user = new User(null, userRequestDTO.name(), userRequestDTO.email());
+        return userRepository.save(user);
     }
 
     public void delete(String id) {
         User existingUser = findById(id);
-        if (existingUser.getId().isEmpty()) {
-            throw new NotFoundException("ID cannot be empty or null");
-        }
         userRepository.deleteById(existingUser.getId());
     }
 
-    public User update(User user) {
-        User existingUser = findById(user.getId());
-        if (existingUser.getId() != null && existingUser.getId().isEmpty()) {
-            throw new NotFoundException("ID cannot be empty or null");
-        }
-        updateData(existingUser, user);
+    public User update(String id, UserRequestDTO userRequestDTO) {
+        User existingUser = findById(id);
+        updateData(existingUser, userRequestDTO);
         return userRepository.save(existingUser);
     }
 
-    private void updateData(User existingUser, User user) {
-        if (user.getName() != null && !user.getName().isEmpty()) {
-            existingUser.setName(user.getName());
+    private void updateData(User existingUser, UserRequestDTO userRequestDTO) {
+        if (userRequestDTO.name() != null && !userRequestDTO.name().isEmpty()) {
+            existingUser.setName(userRequestDTO.name());
         }
-        if (user.getEmail() != null && !user.getEmail().isEmpty()) {
-            existingUser.setEmail(user.getEmail());
+        if (userRequestDTO.email() != null && !userRequestDTO.email().isEmpty()) {
+            existingUser.setEmail(userRequestDTO.email());
         }
     }
 
