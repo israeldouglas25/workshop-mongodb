@@ -1,7 +1,7 @@
 package apiworkshopmongodb.com.br.workshop.services;
 
 import apiworkshopmongodb.com.br.workshop.domain.User;
-import apiworkshopmongodb.com.br.workshop.domain.UserRequestDTO;
+import apiworkshopmongodb.com.br.workshop.domain.dto.UserRequestDTO;
 import apiworkshopmongodb.com.br.workshop.exceptions.NotFoundException;
 import apiworkshopmongodb.com.br.workshop.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,6 @@
-package apiworkshopmongodb.com.br.workshop.domain;
+package apiworkshopmongodb.com.br.workshop.domain.dto;
+
+import apiworkshopmongodb.com.br.workshop.domain.User;
 
 public record UserResponseDTO(String name, String email) {
 

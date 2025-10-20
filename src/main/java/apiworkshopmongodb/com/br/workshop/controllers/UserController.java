@@ -1,8 +1,8 @@
 package apiworkshopmongodb.com.br.workshop.controllers;
 
 import apiworkshopmongodb.com.br.workshop.domain.User;
-import apiworkshopmongodb.com.br.workshop.domain.UserRequestDTO;
-import apiworkshopmongodb.com.br.workshop.domain.UserResponseDTO;
+import apiworkshopmongodb.com.br.workshop.domain.dto.UserRequestDTO;
+import apiworkshopmongodb.com.br.workshop.domain.dto.UserResponseDTO;
 import apiworkshopmongodb.com.br.workshop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
