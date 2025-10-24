@@ -20,12 +20,17 @@ public class PostService {
     @Autowired
     private UserService userService;
 
-    public List<Post> findAll() { return postRepository.findAll();}
+    public List<Post> findAll() {
+        return postRepository.findAll();
+    }
 
-    public Post create (PostDTO dto) {
+    public Post create(PostDTO dto) {
         User user = userService.findById(dto.getIdAuthor());
         UserPostResponse author = new UserPostResponse(user);
         Post post = new Post(null, LocalDate.now(), dto.getTitle(), dto.getBody(), author);
-        return postRepository.save(post);
+        Post postSave = postRepository.save(post);
+        user.getPosts().add(postSave);
+        userService.savePost(user);
+        return postSave;
     }
 }

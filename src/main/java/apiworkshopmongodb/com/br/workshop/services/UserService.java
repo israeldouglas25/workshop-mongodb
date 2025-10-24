@@ -28,6 +28,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public void savePost(User user) {
+        userRepository.save(user);
+    }
+
     public void delete(String id) {
         User existingUser = findById(id);
         userRepository.deleteById(existingUser.getId());
