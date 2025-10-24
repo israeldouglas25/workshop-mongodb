@@ -33,4 +33,8 @@ public class PostService {
         userService.savePost(user);
         return postSave;
     }
+
+    public void delete(String id) {
+        postRepository.deleteById(id);
+    }
 }

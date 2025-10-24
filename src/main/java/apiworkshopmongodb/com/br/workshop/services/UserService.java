@@ -3,6 +3,7 @@ package apiworkshopmongodb.com.br.workshop.services;
 import apiworkshopmongodb.com.br.workshop.domain.User;
 import apiworkshopmongodb.com.br.workshop.domain.dto.UserRequestDTO;
 import apiworkshopmongodb.com.br.workshop.exceptions.NotFoundException;
+import apiworkshopmongodb.com.br.workshop.interfaces.PostRepository;
 import apiworkshopmongodb.com.br.workshop.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PostRepository postRepository;
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -34,6 +38,7 @@ public class UserService {
 
     public void delete(String id) {
         User existingUser = findById(id);
+        postRepository.deleteByAuthorId(existingUser.getId());
         userRepository.deleteById(existingUser.getId());
     }
 
