@@ -1,5 +1,6 @@
 package apiworkshopmongodb.com.br.workshop.controllers;
 
+import apiworkshopmongodb.com.br.workshop.domain.Post;
 import apiworkshopmongodb.com.br.workshop.domain.User;
 import apiworkshopmongodb.com.br.workshop.domain.dto.UserRequestDTO;
 import apiworkshopmongodb.com.br.workshop.domain.dto.UserResponseDTO;
@@ -28,6 +29,12 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> findById(@PathVariable String id) {
         User user = userService.findById(id);
         return ResponseEntity.ok().body(new UserResponseDTO(user));
+    }
+
+    @GetMapping("/{id}/posts")
+    public ResponseEntity<List<Post>> findPostById(@PathVariable String id) {
+        User user = userService.findById(id);
+        return ResponseEntity.ok().body(user.getPosts());
     }
 
     @PostMapping

@@ -3,7 +3,7 @@ package apiworkshopmongodb.com.br.workshop.services;
 import apiworkshopmongodb.com.br.workshop.domain.Post;
 import apiworkshopmongodb.com.br.workshop.domain.User;
 import apiworkshopmongodb.com.br.workshop.domain.dto.PostDTO;
-import apiworkshopmongodb.com.br.workshop.domain.dto.UserPostResponse;
+import apiworkshopmongodb.com.br.workshop.domain.dto.UserPostResponseDTO;
 import apiworkshopmongodb.com.br.workshop.interfaces.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class PostService {
 
     public Post create(PostDTO dto) {
         User user = userService.findById(dto.getIdAuthor());
-        UserPostResponse author = new UserPostResponse(user);
+        UserPostResponseDTO author = new UserPostResponseDTO(user);
         Post post = new Post(null, LocalDate.now(), dto.getTitle(), dto.getBody(), author);
         Post postSave = postRepository.save(post);
         user.getPosts().add(postSave);

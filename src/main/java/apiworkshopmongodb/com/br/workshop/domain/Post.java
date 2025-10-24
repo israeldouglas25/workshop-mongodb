@@ -1,6 +1,6 @@
 package apiworkshopmongodb.com.br.workshop.domain;
 
-import apiworkshopmongodb.com.br.workshop.domain.dto.UserPostResponse;
+import apiworkshopmongodb.com.br.workshop.domain.dto.UserPostResponseDTO;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
@@ -19,5 +19,5 @@ public class Post {
     private LocalDate date;
     private String title;
     private String body;
-    private UserPostResponse author;
+    private UserPostResponseDTO author;
 }
