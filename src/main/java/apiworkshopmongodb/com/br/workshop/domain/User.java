@@ -1,5 +1,6 @@
 package apiworkshopmongodb.com.br.workshop.domain;
 
+import apiworkshopmongodb.com.br.workshop.domain.dto.PostResponseDTO;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -22,7 +23,7 @@ public class User {
     private String email;
 
     @DBRef(lazy = true)
-    private List<Post> posts = new ArrayList<>();
+    private List<PostResponseDTO> posts = new ArrayList<>();
 
     public User(String id, String name, String email) {
         this.id = id;
