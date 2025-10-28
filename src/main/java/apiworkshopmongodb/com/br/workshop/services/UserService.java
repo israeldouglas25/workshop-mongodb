@@ -2,7 +2,7 @@ package apiworkshopmongodb.com.br.workshop.services;
 
 import apiworkshopmongodb.com.br.workshop.domain.Post;
 import apiworkshopmongodb.com.br.workshop.domain.User;
-import apiworkshopmongodb.com.br.workshop.domain.dto.UserPostResponseDTO;
+import apiworkshopmongodb.com.br.workshop.domain.dto.AuthorDTO;
 import apiworkshopmongodb.com.br.workshop.domain.dto.UserRequestDTO;
 import apiworkshopmongodb.com.br.workshop.exceptions.NotFoundException;
 import apiworkshopmongodb.com.br.workshop.interfaces.PostRepository;
@@ -53,7 +53,7 @@ public class UserService {
         if (posts != null && !posts.isEmpty()) {
             for (Post post : posts) {
                 if (post.getAuthor() != null) {
-                    post.setAuthor(new UserPostResponseDTO(savedUser));
+                    post.setAuthor(new AuthorDTO(savedUser));
                 }
             }
             postRepository.saveAll(posts);
