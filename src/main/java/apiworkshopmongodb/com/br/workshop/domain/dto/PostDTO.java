@@ -1,6 +1,5 @@
 package apiworkshopmongodb.com.br.workshop.domain.dto;
 
-import apiworkshopmongodb.com.br.workshop.domain.User;
 import lombok.Getter;
 import lombok.Setter;
 
