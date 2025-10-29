@@ -1,19 +1,16 @@
 package apiworkshopmongodb.com.br.workshop.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import apiworkshopmongodb.com.br.workshop.domain.Comment;
 
 import java.time.LocalDate;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-public class CommentDTO {
+public record CommentDTO(
+        String text,
+        LocalDate date,
+        AuthorDTO author) {
 
-    private String text;
-    private LocalDate date;
-    private AuthorDTO idAuthor;
+    public CommentDTO(Comment comment) {
+        this(comment.getText(), comment.getDate(), comment.getAuthor());
+    }
+
 }
