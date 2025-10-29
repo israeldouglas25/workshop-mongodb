@@ -5,6 +5,7 @@ import apiworkshopmongodb.com.br.workshop.domain.Post;
 import apiworkshopmongodb.com.br.workshop.domain.User;
 import apiworkshopmongodb.com.br.workshop.domain.dto.AuthorDTO;
 import apiworkshopmongodb.com.br.workshop.domain.dto.CommentDTO;
+import apiworkshopmongodb.com.br.workshop.exceptions.NotFoundException;
 import apiworkshopmongodb.com.br.workshop.interfaces.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,10 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
+    public Comment findById(String id) {
+        return commentRepository.findById(id).orElseThrow(() -> new NotFoundException("Comment not found"));
+    }
+
     public Comment create(String idPost, CommentDTO dto) {
         Post post = postService.findById(idPost);
         User user = userService.findById(dto.getAuthor());
@@ -37,5 +42,10 @@ public class CommentService {
         post.getComments().add(saved);
         postService.saveComment(post);
         return comment;
+    }
+
+    public void delete(String id) {
+        Comment comment = findById(id);
+        commentRepository.deleteById(comment.getId());
     }
 }

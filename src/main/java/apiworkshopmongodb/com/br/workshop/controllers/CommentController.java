@@ -30,4 +30,10 @@ public class CommentController {
         return ResponseEntity.created(uri).body(createdComment);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        commentService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
