@@ -1,5 +1,6 @@
 package apiworkshopmongodb.com.br.workshop.controllers;
 
+import apiworkshopmongodb.com.br.workshop.domain.Post;
 import apiworkshopmongodb.com.br.workshop.domain.User;
 import apiworkshopmongodb.com.br.workshop.domain.dto.PostResponseDTO;
 import apiworkshopmongodb.com.br.workshop.domain.dto.UserRequestDTO;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,7 +23,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
+    public ResponseEntity<List<UserResponseDTO>> findAll() {
         return ResponseEntity.ok().body(userService.findAll());
     }
 
@@ -34,7 +36,11 @@ public class UserController {
     @GetMapping("/{id}/posts")
     public ResponseEntity<List<PostResponseDTO>> findPostById(@PathVariable String id) {
         User user = userService.findById(id);
-        return ResponseEntity.ok().body(user.getPosts());
+        List<PostResponseDTO> posts = new ArrayList<>();
+        for (Post post : user.getPosts()) {
+            posts.add(new PostResponseDTO(post));
+        }
+        return ResponseEntity.ok().body(posts);
     }
 
     @PostMapping

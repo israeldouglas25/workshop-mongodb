@@ -4,6 +4,7 @@ import apiworkshopmongodb.com.br.workshop.domain.Post;
 import apiworkshopmongodb.com.br.workshop.domain.User;
 import apiworkshopmongodb.com.br.workshop.domain.dto.AuthorDTO;
 import apiworkshopmongodb.com.br.workshop.domain.dto.UserRequestDTO;
+import apiworkshopmongodb.com.br.workshop.domain.dto.UserResponseDTO;
 import apiworkshopmongodb.com.br.workshop.exceptions.NotFoundException;
 import apiworkshopmongodb.com.br.workshop.interfaces.PostRepository;
 import apiworkshopmongodb.com.br.workshop.interfaces.UserRepository;
@@ -21,8 +22,9 @@ public class UserService {
     @Autowired
     private PostRepository postRepository;
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserResponseDTO> findAll() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(UserResponseDTO::new).toList();
     }
 
     public User findById(String id) {
