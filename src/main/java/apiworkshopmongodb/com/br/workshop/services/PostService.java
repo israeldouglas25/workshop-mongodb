@@ -1,11 +1,13 @@
 package apiworkshopmongodb.com.br.workshop.services;
 
+import apiworkshopmongodb.com.br.workshop.domain.Comment;
 import apiworkshopmongodb.com.br.workshop.domain.Post;
 import apiworkshopmongodb.com.br.workshop.domain.User;
 import apiworkshopmongodb.com.br.workshop.domain.dto.AuthorDTO;
 import apiworkshopmongodb.com.br.workshop.domain.dto.PostDTO;
 import apiworkshopmongodb.com.br.workshop.domain.dto.PostUpdateDTO;
 import apiworkshopmongodb.com.br.workshop.exceptions.NotFoundException;
+import apiworkshopmongodb.com.br.workshop.interfaces.CommentRepository;
 import apiworkshopmongodb.com.br.workshop.interfaces.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,9 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Autowired
     private UserService userService;
@@ -46,6 +51,12 @@ public class PostService {
 
     public void delete(String id) {
         Post existingPost = findById(id);
+        List<Comment> comments = existingPost.getComments();
+        if (comments != null && !comments.isEmpty()) {
+            for (Comment comment : comments) {
+                commentRepository.deleteById(comment.getId());
+            }
+        }
         postRepository.deleteById(existingPost.getId());
     }
 
