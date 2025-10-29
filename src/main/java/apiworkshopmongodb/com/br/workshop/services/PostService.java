@@ -40,6 +40,10 @@ public class PostService {
         return postSave;
     }
 
+    public void saveComment(Post post) {
+        postRepository.save(post);
+    }
+
     public void delete(String id) {
         Post existingPost = findById(id);
         postRepository.deleteById(existingPost.getId());
